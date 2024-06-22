@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stories</string>
+    <string name="login">Masuk</string>
+    <string name="signup">Daftar</string>
+    <string name="title_welcome_page">Selamat Datang di Stories!</string>
+    <string name="message_welcome_page">Bagikan pengalamanmu dan mulailah membuat pertemanan baru!</string>
+    <string name="title_signup_page">Pembuatan Akunmu!</string>
+    <string name="name">Nama</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="title_login_page">Mari kita mulai!</string>
+    <string name="message_login_page">Silahkan masukkan akunmu!</string>
+    <string name="logout">Keluar</string>
+    <string name="password_hint">Masukkan kata sandi</string>
+    <string name="password_error">Password tidak boleh kurang dari 8 karakter</string>
+    <string name="email_hint">Masukkan email</string>
+    <string name="email_error">Email tidak valid</string>
+    <string name="name_hint">Masukkan nama</string>
+    <string name="name_error">Nama tidak boleh kosong</string>
+    <string name="not_found_message">Oops!\nCerita tidak ditemukan !??</string>
+    <string name="fab_content_desc">Tambah Story baru</string>
+    <string name="gallery">Galeri</string>
+    <string name="camera">Kamera</string>
+    <string name="upload">Unggah</string>
+    <string name="description_hint">Deskripsimu</string>
+    <string name="description_error">Deskripsi tidak boleh kosong</string>
+    <string name="empty_warning">Gambar tidak ada</string>
+    <string name="error_addtional_warning">Silahkan coba kembali!</string>
+    <string name="language">Bahasa</string>
+    <string name="confirmation">Konfirmasi</string>
+    <string name="confirm_message">Apakah anda yakin ingin keluar?</string>
+    <string name="confirm_yes">Ya</string>
+    <string name="confirm_no">Tidak</string>
+    <string name="splash_message">Place to share your story</string>
+    <string name="Map">Google Map</string>
+    <string name="title_activity_maps">Stories Maps</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="Location_input_desc">Menjadikan Lokasimu sebagai Lokasi Cerita?</string>
+    <string name="location_not_found_message">Lokasi tidak ditemukan.\nSilahkan Coba lagi!</string>
+</resources>

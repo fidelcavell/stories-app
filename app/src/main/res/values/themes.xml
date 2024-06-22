@@ -1,0 +1,18 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Stories" parent="Theme.Material3.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/lavender</item>
+        <item name="colorPrimaryVariant">@color/lavender</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Status bar color. -->
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="Base.Theme.Stories.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.Stories" parent="Base.Theme.Stories" />
+
+    <style name="Theme.Stories.NoActionBar" parent="Base.Theme.Stories.NoActionBar" />
+</resources>
