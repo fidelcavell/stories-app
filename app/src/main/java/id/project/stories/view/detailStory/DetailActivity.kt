@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import id.project.stories.R
 import id.project.stories.data.remote.response.ListStoryItem
 import id.project.stories.databinding.ActivityDetailBinding
+import id.project.stories.utils.formatDate
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -54,12 +55,19 @@ class DetailActivity : AppCompatActivity() {
                 create()
                 show()
             }
+
         } else {
+            val formattedDate = "Created on ${formatDate(story.createdAt)}"
             binding.apply {
                 Glide.with(storyImage.context)
                     .load(story.photoUrl)
                     .into(storyImage)
-                storyTitle.text = story.name
+                Glide.with(profileImage.context)
+                    .load(story.photoUrl)
+                    .circleCrop()
+                    .into(profileImage)
+                username.text = story.name
+                storyDate.text = formattedDate
                 storyDescription.text = story.description
             }
         }

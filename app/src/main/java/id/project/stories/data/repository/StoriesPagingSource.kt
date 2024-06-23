@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import id.project.stories.data.remote.api.ApiService
 import id.project.stories.data.remote.response.ListStoryItem
 
-class StoriesPagingSource(private val apiService: ApiService, private val authToken: String) : PagingSource<Int, ListStoryItem>() {
+class StoriesPagingSource(private val apiService: ApiService) : PagingSource<Int, ListStoryItem>() {
     override fun getRefreshKey(state: PagingState<Int, ListStoryItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -16,7 +16,7 @@ class StoriesPagingSource(private val apiService: ApiService, private val authTo
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ListStoryItem> {
         return try {
             val position = params.key ?: INITIAL_PAGE_INDEX
-            val responseData = apiService.getAllStories(token = authToken, page = position, size = params.loadSize)
+            val responseData = apiService.getAllStories(page = position, size = params.loadSize)
 
             LoadResult.Page(
                 data = responseData.listStory,

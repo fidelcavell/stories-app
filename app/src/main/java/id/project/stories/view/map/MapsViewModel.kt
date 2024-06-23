@@ -17,11 +17,11 @@ class MapsViewModel(private val repository: UserRepository) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun getAllStoriesWithLocation(authToken: String, location: Int = 1) {
+    fun getAllStoriesWithLocation(location: Int = 1) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = repository.getAllStoriesWithLocation(authToken = authToken, location = location)
+                val response = repository.getAllStoriesWithLocation(location = location)
                 _listOfStory.value = response.listStory
 
             } catch (e: HttpException) {

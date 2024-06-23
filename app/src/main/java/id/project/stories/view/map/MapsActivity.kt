@@ -49,8 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ColorDrawable(Color.parseColor("#8692f7"))
         )
 
-        val authToken = intent.getStringExtra(EXTRA_AUTH_TOKEN).toString()
-        viewModel.getAllStoriesWithLocation(authToken)
+        viewModel.getAllStoriesWithLocation()
 
         viewModel.isLoading.observe(this) {
             showLoading(it)
@@ -169,6 +168,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val TAG = "MapsActivity"
-        const val EXTRA_AUTH_TOKEN = "extra_auth_token"
     }
 }

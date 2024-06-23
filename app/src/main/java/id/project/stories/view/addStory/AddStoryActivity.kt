@@ -116,8 +116,6 @@ class AddStoryActivity : AppCompatActivity() {
             ColorDrawable(Color.parseColor("#8692f7"))
         )
 
-        val authToken = intent.getStringExtra(EXTRA_AUTH_TOKEN).toString()
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         binding.apply {
@@ -128,7 +126,7 @@ class AddStoryActivity : AppCompatActivity() {
                 startGallery()
             }
             uploadButton.setOnClickListener {
-                uploadStory(authToken)
+                uploadStory()
             }
             switchLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 if (isChecked) {
@@ -190,11 +188,10 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun uploadStory(authToken: String) {
+    private fun uploadStory() {
         currentImageUri?.let { uri ->
             val description = binding.descriptionEditText.text.toString().trim()
             viewModel.uploadStory(
-                authToken = authToken,
                 image = uri,
                 description = description,
                 lat = location?.latitude,
@@ -243,9 +240,5 @@ class AddStoryActivity : AppCompatActivity() {
                 )
             )
         }
-    }
-
-    companion object {
-        const val EXTRA_AUTH_TOKEN = "extra_auth_token"
     }
 }

@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
-    private var authToken: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +39,9 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-            } else {
-                setupView("Bearer ${user.token}")
-                authToken = "Bearer ${user.token}"
             }
         }
+        setupView()
         setupAction()
     }
 
@@ -57,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.map -> {
                 val intentToMap = Intent(this@MainActivity, MapsActivity::class.java)
-                intentToMap.putExtra(MapsActivity.EXTRA_AUTH_TOKEN, authToken)
                 startActivity(intentToMap)
             }
 
@@ -84,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupView(authToken: String) {
+    private fun setupView() {
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(Color.parseColor("#8692f7")))
 
@@ -96,39 +92,15 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        viewModel.getAllStories(authToken).observe(this@MainActivity) {
+        viewModel.getAllStories().observe(this@MainActivity) {
             adapter.submitData(lifecycle, it)
-        }
-
-        viewModel.errorResponse.observe(this) { errorMessage ->
-            if (errorMessage != null) {
-                binding.apply {
-                    notFoundImage.visibility = View.VISIBLE
-                    notFoundMessage.visibility = View.VISIBLE
-                }
-                AlertDialog.Builder(this).apply {
-                    setTitle("Error")
-                    setMessage("${errorMessage}\n\n" + getString(R.string.error_addtional_warning))
-                    setPositiveButton("Ok") { _, _ ->
-                        viewModel.logout()
-                        finish()
-                    }
-                    create()
-                    show()
-                }
-            }
         }
     }
 
     private fun setupAction() {
         binding.fabAdd.setOnClickListener {
             val intentToAddStory = Intent(this@MainActivity, AddStoryActivity::class.java)
-            intentToAddStory.putExtra(AddStoryActivity.EXTRA_AUTH_TOKEN, authToken)
             startActivity(intentToAddStory)
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

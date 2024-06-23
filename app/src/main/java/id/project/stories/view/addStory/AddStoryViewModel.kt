@@ -18,7 +18,6 @@ import id.project.stories.utils.uriToFile
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
@@ -34,7 +33,13 @@ class AddStoryViewModel(private val repository: UserRepository) : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    fun uploadStory(authToken: String, image: Uri, description: String, lat: Double? = null, lon: Double? = null, context: Context) {
+    fun uploadStory(
+        image: Uri,
+        description: String,
+        lat: Double? = null,
+        lon: Double? = null,
+        context: Context
+    ) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
@@ -51,7 +56,12 @@ class AddStoryViewModel(private val repository: UserRepository) : ViewModel() {
                     requestImageFile
                 )
 
-                val response = repository.uploadStory(authToken, multipartBody, descriptionRequest, latRequest, lonRequest)
+                val response = repository.uploadStory(
+                    file = multipartBody,
+                    description = descriptionRequest,
+                    lat = latRequest,
+                    lon = lonRequest
+                )
                 _uploadStory.value = response
 
             } catch (e: HttpException) {

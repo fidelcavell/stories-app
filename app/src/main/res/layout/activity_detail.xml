@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".view.detailStory.DetailActivity">
 
     <ProgressBar
@@ -25,7 +26,7 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.37"
+        app:layout_constraintGuide_percent="0.55"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,48 +42,75 @@
         app:tint="@color/white" />
 
     <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/back_button"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/profile_image"
+        app:layout_constraintEnd_toEndOf="@id/story_image"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
+        app:layout_constraintTop_toTopOf="@id/profile_image"
+        tools:text="Budi" />
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/story_image"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="8dp"
         android:scaleType="fitXY"
         android:transitionName="image"
         app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/profile_image"
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.RoundedCorners"
         tools:src="@tools:sample/avatars" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="18dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/story_image"
+        app:layout_constraintStart_toStartOf="@id/story_image"
         app:layout_constraintTop_toBottomOf="@id/story_image">
 
-        <TextView
-            android:id="@+id/story_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:transitionName="title"
-            app:layout_constraintTop_toBottomOf="@id/story_image"
-            tools:text="Title" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/story_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1000"
-            android:scrollbars="vertical"
-            android:textColor="@color/navy"
-            android:textSize="20sp"
-            android:transitionName="description"
-            app:layout_constraintTop_toBottomOf="@id/story_title"
-            tools:text="Description Story" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/story_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                tools:text="Created on 12 June 2024" />
+
+            <TextView
+                android:id="@+id/story_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1000"
+                android:scrollbars="vertical"
+                android:textColor="@color/navy"
+                android:textSize="20sp"
+                android:transitionName="description"
+                tools:text="Description Story" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

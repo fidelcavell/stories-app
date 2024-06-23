@@ -1,5 +1,6 @@
 package id.project.stories.utils
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -132,4 +133,12 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
         matrix,
         true
     )
+}
+
+@SuppressLint("SimpleDateFormat")
+fun formatDate(inputDate: String): String {
+    val dateAPIFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(inputDate) as Date
+    val formattedDate = SimpleDateFormat("dd MMMM yyyy, hh:mm a").format(dateAPIFormat)
+
+    return formattedDate.toString()
 }

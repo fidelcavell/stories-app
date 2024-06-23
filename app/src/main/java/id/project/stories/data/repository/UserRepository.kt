@@ -43,26 +43,25 @@ class UserRepository private constructor(
     }
 
     suspend fun uploadStory(
-        authToken: String,
         file: MultipartBody.Part,
         description: RequestBody,
         lat: RequestBody?,
         lon: RequestBody?
     ): RegisterResponse {
-        return apiService.uploadStory(token = authToken, file = file, description = description, lat = lat, lon = lon)
+        return apiService.uploadStory(file = file, description = description, lat = lat, lon = lon)
     }
 
-    suspend fun getAllStoriesWithLocation(authToken: String, location: Int): StoryResponse {
-        return apiService.getAllStories(token = authToken, location =  location)
+    suspend fun getAllStoriesWithLocation(location: Int): StoryResponse {
+        return apiService.getAllStories(location =  location)
     }
 
-    fun getAllStories(authToken: String): LiveData<PagingData<ListStoryItem>> {
+    fun getAllStories(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
             pagingSourceFactory = {
-                StoriesPagingSource(apiService = apiService, authToken = authToken)
+                StoriesPagingSource(apiService = apiService)
             }
         ).liveData
     }
