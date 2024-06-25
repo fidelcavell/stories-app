@@ -52,6 +52,8 @@ dependencies {
     // Google Play Service Location :
     implementation("com.google.android.gms:play-services-maps:18.0.0")
     implementation("com.google.android.gms:play-services-location:18.0.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     // InstantTaskExecutorRule :
     testImplementation("androidx.arch.core:core-testing:2.2.0")

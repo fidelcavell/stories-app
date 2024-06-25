@@ -1,13 +1,13 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Stories" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.Stories" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/lavender</item>
         <item name="colorPrimaryVariant">@color/lavender</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- Status bar color. -->
-        <item name="titleTextColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
 

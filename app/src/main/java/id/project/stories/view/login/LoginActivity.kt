@@ -3,16 +3,13 @@ package id.project.stories.view.login
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import id.project.stories.databinding.ActivityLoginBinding
 import id.project.stories.utils.ViewModelFactory
+import id.project.stories.utils.component.CustomAlertDialog
 import id.project.stories.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -20,6 +17,8 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+    private val customAlertDialog = CustomAlertDialog(this@LoginActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,28 +47,33 @@ class LoginActivity : AppCompatActivity() {
         }
 
         viewModel.loginResponse.observe(this) { response ->
-            AlertDialog.Builder(this).apply {
-                setTitle("Welcome!")
-                setMessage("Hi, ${response.loginResult.name} ~")
-                setPositiveButton("Ok") { _, _ ->
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Welcome!",
+                    message = "Hi, ${response.loginResult.name}",
+                    hasNegativeBtn = false,
+                    onPositiveButtonClick = {
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    },
+                    onNegativeButtonClick = { /* Do Nothing */ }
+                )
                 show()
             }
         }
 
         viewModel.errorResponse.observe(this) { errorMessage ->
-            AlertDialog.Builder(this).apply {
-                setTitle("Error")
-                setMessage(errorMessage)
-                setPositiveButton("Ok") { _, _ ->
-                    // Do Nothing
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Error",
+                    message = errorMessage.toString(),
+                    hasNegativeBtn = false,
+                    onPositiveButtonClick = { /* Do Nothing */ },
+                    onNegativeButtonClick = { /* Do Nothing */ }
+                )
                 show()
             }
         }

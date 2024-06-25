@@ -2,22 +2,21 @@ package id.project.stories.view.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import id.project.stories.databinding.ActivitySignupBinding
 import id.project.stories.utils.ViewModelFactory
+import id.project.stories.utils.component.CustomAlertDialog
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private val viewModel by viewModels<SignupViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+    private val customAlertDialog = CustomAlertDialog(this@SignupActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,28 +46,27 @@ class SignupActivity : AppCompatActivity() {
         }
 
         viewModel.registerResponse.observe(this) { response ->
-            AlertDialog.Builder(this).apply {
-                setTitle("Success")
-                setMessage(response.message)
-                setPositiveButton("Ok") { _, _ ->
-                    finish()
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Success",
+                    message = response.message,
+                    hasNegativeBtn = false,
+                    onPositiveButtonClick = { finish() },
+                    onNegativeButtonClick = { /* Do Nothing */ }
+                )
                 show()
             }
         }
 
         viewModel.errorResponse.observe(this) { errorMessage ->
-            AlertDialog.Builder(this).apply {
-                setTitle("Error")
-                setMessage("$errorMessage\n\nPlease Try Again!")
-                setPositiveButton("Ok") { _, _ ->
-                    // Do Nothing
-                }
-                setNegativeButton("Cancel") { _, _ ->
-                    finish()
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Invalid",
+                    message = "$errorMessage\n\nPlease Try Again!",
+                    hasNegativeBtn = true,
+                    onPositiveButtonClick = { /* Do Nothing */ },
+                    onNegativeButtonClick = { finish() }
+                )
                 show()
             }
         }

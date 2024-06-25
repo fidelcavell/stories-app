@@ -3,14 +3,14 @@ package id.project.stories.view.addStory
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.CompoundButton
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationServices
 import id.project.stories.R
 import id.project.stories.databinding.ActivityAddStoryBinding
 import id.project.stories.utils.ViewModelFactory
+import id.project.stories.utils.component.CustomAlertDialog
 import id.project.stories.utils.getImageUri
 import id.project.stories.view.main.MainActivity
 
@@ -37,6 +38,8 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var location: Location? = null
 
+    private val customAlertDialog = CustomAlertDialog(this@AddStoryActivity)
+
     // Access Camera :
     private val launchCamera = registerForActivityResult(
         ActivityResultContracts.TakePicture()
@@ -45,13 +48,14 @@ class AddStoryActivity : AppCompatActivity() {
             showImage()
         } else {
             Log.d("Camera", "Failed to Launch Camera")
-            AlertDialog.Builder(this).apply {
-                setTitle("Error")
-                setMessage("Failed to Launch Camera")
-                setPositiveButton("Ok") { _, _ ->
-                    // Do Nothing
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Error",
+                    message = "Failed to launch Camera",
+                    hasNegativeBtn = false,
+                    onPositiveButtonClick = { /* Do Nothing */ },
+                    onNegativeButtonClick = { /* Do Nothing */ }
+                )
                 show()
             }
         }
@@ -66,13 +70,14 @@ class AddStoryActivity : AppCompatActivity() {
             showImage()
         } else {
             Log.d("Photo Picker", "No Media Selected")
-            AlertDialog.Builder(this).apply {
-                setTitle("Error")
-                setMessage("No Media Selected")
-                setPositiveButton("Ok") { _, _ ->
-                    // Do Nothing
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Error",
+                    message = "No Media Selected",
+                    hasNegativeBtn = false,
+                    onPositiveButtonClick = { /* Do Nothing */ },
+                    onNegativeButtonClick = { /* Do Nothing */ }
+                )
                 show()
             }
         }
@@ -112,9 +117,7 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setBackgroundDrawable(
-            ColorDrawable(Color.parseColor("#8692f7"))
-        )
+        setupView()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -136,6 +139,9 @@ class AddStoryActivity : AppCompatActivity() {
                     location = null
                 }
             }
+            backButton.setOnClickListener {
+                finish()
+            }
         }
 
         viewModel.isLoading.observe(this) {
@@ -143,17 +149,20 @@ class AddStoryActivity : AppCompatActivity() {
         }
 
         viewModel.uploadStory.observe(this) { response ->
-            AlertDialog.Builder(this).apply {
-                setTitle("Success")
-                setMessage(response.message)
-                setPositiveButton("Ok") { _, _ ->
-                    val intentToMain = Intent(this@AddStoryActivity, MainActivity::class.java)
-                    intentToMain.flags =
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intentToMain)
-                    finish()
-                }
-                create()
+            customAlertDialog.apply {
+                create(
+                    title = "Success",
+                    message = response.message,
+                    hasNegativeBtn = false,
+                    onPositiveButtonClick = {
+                        val intentToMain = Intent(this@AddStoryActivity, MainActivity::class.java)
+                        intentToMain.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intentToMain)
+                        finish()
+                    },
+                    onNegativeButtonClick = { /* Do Nothing */ }
+                )
                 show()
             }
         }
@@ -169,6 +178,19 @@ class AddStoryActivity : AppCompatActivity() {
                 show()
             }
         }
+    }
+
+    private fun setupView() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        supportActionBar?.hide()
     }
 
     private fun showImage() {
@@ -199,13 +221,14 @@ class AddStoryActivity : AppCompatActivity() {
                 context = this@AddStoryActivity
             )
 
-        } ?: AlertDialog.Builder(this).apply {
-            setTitle("Error")
-            setMessage(getString(R.string.empty_warning))
-            setPositiveButton("Ok") { _, _ ->
-                // Do Nothing
-            }
-            create()
+        } ?: customAlertDialog.apply {
+            create(
+                title = "Invalid",
+                message = getString(R.string.empty_warning),
+                hasNegativeBtn = false,
+                onPositiveButtonClick = { /* Do Nothing */ },
+                onNegativeButtonClick = { /* Do Nothing */ }
+            )
             show()
         }
     }
@@ -219,19 +242,22 @@ class AddStoryActivity : AppCompatActivity() {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     this.location = location
+
                 } else {
-                    AlertDialog.Builder(this).apply {
-                        setTitle("Error")
-                        setMessage(getString(R.string.location_not_found_message))
-                        setPositiveButton("Ok") { _, _ ->
-                            // Do Nothing
-                        }
-                        create()
+                    customAlertDialog.apply {
+                        create(
+                            title = "Invalid",
+                            message = getString(R.string.location_not_found_message),
+                            hasNegativeBtn = false,
+                            onPositiveButtonClick = { /* Do Nothing */ },
+                            onNegativeButtonClick = { /* Do Nothing */ }
+                        )
                         show()
                     }
                     binding.switchLocation.isChecked = false
                 }
             }
+
         } else {
             requestLocationPermissionLauncher.launch(
                 arrayOf(

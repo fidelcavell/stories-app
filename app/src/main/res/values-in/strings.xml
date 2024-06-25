@@ -42,4 +42,6 @@
     <string name="retry">Coba Lagi</string>
     <string name="Location_input_desc">Menjadikan Lokasimu sebagai Lokasi Cerita?</string>
     <string name="location_not_found_message">Lokasi tidak ditemukan.\nSilahkan Coba lagi!</string>
+    <string name="settings">Pengaturan</string>
+    <string name="home">Home</string>
 </resources>
