@@ -13,6 +13,7 @@ Stories is an application that built by Kotlin Programming Language and Android 
   - #### Retrofit -> Data Networking
   - #### Paging 3 -> Data loading and pagination
   - #### Datastore -> Stored user preferences
+  - #### RemoteMediator -> Stored Data Locally and changes when application goes online
  
 - ### How to get Started
   - #### Visit and [get your own Maps API Key](https://console.cloud.google.com/apis/enableflow?apiid=maps-android-backend.googleapis.com&keyType=CLIENT_SIDE_ANDROID&project=charming-shield-422908-v1)
