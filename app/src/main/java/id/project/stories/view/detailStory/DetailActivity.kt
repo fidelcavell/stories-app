@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import id.project.stories.R
-import id.project.stories.data.remote.response.ListStoryItem
+import id.project.stories.data.local.StoryModel
 import id.project.stories.databinding.ActivityDetailBinding
 import id.project.stories.utils.formatDate
 
@@ -22,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val story = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(EXTRA_STORY, ListStoryItem::class.java)
+            intent.getParcelableExtra(EXTRA_STORY, StoryModel::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_STORY)
@@ -32,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
         setupAction()
     }
 
-    private fun setupView(story: ListStoryItem?) {
+    private fun setupView(story: StoryModel?) {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())

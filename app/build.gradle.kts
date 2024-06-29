@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -67,7 +68,9 @@ dependencies {
 
     // Room and Paging 3
     implementation("androidx.paging:paging-runtime-ktx:3.3.0")
+    implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-paging:2.6.1") // Remote Mediator
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // EXIF Reader :
     implementation("androidx.exifinterface:exifinterface:1.3.7")

@@ -1,6 +1,9 @@
 package id.project.stories.view.home
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,7 @@ import id.project.stories.databinding.FragmentHomeBinding
 import id.project.stories.utils.ViewModelFactory
 import id.project.stories.utils.adapters.ListStoriesAdapter
 import id.project.stories.utils.adapters.LoadingStateAdapter
+import id.project.stories.utils.component.CustomAlertDialog
 import id.project.stories.view.main.MainViewModel
 import id.project.stories.view.map.MapsActivity
 
@@ -21,6 +25,8 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(requireActivity())
     }
+
+    private lateinit var customAlertDialog: CustomAlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +39,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        customAlertDialog = CustomAlertDialog(requireActivity())
 
         setupView()
         setupAction()
@@ -59,8 +67,45 @@ class HomeFragment : Fragment() {
 
     private fun setupAction() {
         binding.fabMap.setOnClickListener {
-            val intentToMap = Intent(requireActivity(), MapsActivity::class.java)
-            startActivity(intentToMap)
+            try {
+                if (isInternetAvailable()) {
+                    val intentToMap = Intent(requireActivity(), MapsActivity::class.java)
+                    startActivity(intentToMap)
+                } else {
+                    customAlertDialog.apply {
+                        create(
+                            title = "Error",
+                            message = "Can't Open Maps, No Internet Access",
+                            hasNegativeBtn = false,
+                            onPositiveButtonClick = { /* Do Nothing */ },
+                            onNegativeButtonClick = { /* Do Nothing */ }
+                        )
+                        show()
+                    }
+                }
+
+            } catch (e: Exception) {
+                customAlertDialog.apply {
+                    create(
+                        title = "Error",
+                        message = "An error occurred: ${e.message}",
+                        hasNegativeBtn = false,
+                        onPositiveButtonClick = { /* Do Nothing */ },
+                        onNegativeButtonClick = { /* Do Nothing */ }
+                    )
+                    show()
+                }
+            }
         }
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 }
