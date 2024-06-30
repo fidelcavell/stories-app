@@ -7,13 +7,13 @@ Stories is an application that built by Kotlin Programming Language and Android 
   - #### Google Maps : Integrated maps with user's story (limited only for Story that provided location)
   - #### Language Options : Allowed user to change language of the application (limited only for English and Indonesian)
  
-- ### Architecture and Technologies Used
-  - #### Android Architecture Components (ViewModel and LiveData)
+- ### Technologies Used
+  - #### MVVM (Model-View-ViewModel) architecture pattern
   - #### Kotlin Coroutines -> Asynchronous Process
   - #### Retrofit -> Data Networking
   - #### Paging 3 -> Data loading and pagination
-  - #### Datastore -> Stored user preferences
-  - #### RemoteMediator -> Stored Data Locally and changes when application goes online
+  - #### Datastore -> Stored user's data preferences
+  - #### RemoteMediator -> Stored user's data Locally and get updated when application goes online
  
 - ### How to get Started
   - #### Visit and [get your own Maps API Key](https://console.cloud.google.com/apis/enableflow?apiid=maps-android-backend.googleapis.com&keyType=CLIENT_SIDE_ANDROID&project=charming-shield-422908-v1)
