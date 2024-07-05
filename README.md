@@ -13,7 +13,9 @@ Stories is an application that built by Kotlin Programming Language and Android 
   - #### Retrofit -> Data Networking
   - #### Paging 3 -> Data loading and pagination
   - #### Datastore -> Stored user's data preferences
+  - #### Room -> On-device database to stored story's data that fetched from API endpoints
   - #### RemoteMediator -> Stored user's data Locally and get updated when application goes online
+  - #### [Glide](https://github.com/bumptech/glide) -> Online Image loader dependency
  
 - ### How to get Started
   - #### Visit and [get your own Maps API Key](https://console.cloud.google.com/apis/enableflow?apiid=maps-android-backend.googleapis.com&keyType=CLIENT_SIDE_ANDROID&project=charming-shield-422908-v1)
